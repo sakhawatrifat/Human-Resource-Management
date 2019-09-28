@@ -43,6 +43,6 @@
             </table>
         </div>
     </div>
+    <h2>This is version 2</h2>
 </div>
-<h1>Rifat</h1>
 @endsection
