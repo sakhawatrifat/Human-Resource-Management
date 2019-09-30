@@ -8,7 +8,7 @@
   		<button type="button" class="btn btn-info btn-sm float-right" data-toggle="modal" data-target="#myModal">+ Add Award</button>
         <h4 class="card-title">Award Table</h4>
         <div class="table-responsive m-t-40">
-            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="myTable" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                     	<th>SL.NO</th>
@@ -71,7 +71,12 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Employee Name</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="employee_name" class="form-control" placeholder="">
+                                        <select class="form-control custom-select" required name="employee_name">
+                                            <option value="">--Select--</option>
+                                            @foreach($employee as $employee_data)
+                                            <option>{{ $employee_data->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -136,9 +141,8 @@
             </div>
         </div>
       </div>
-      
     </div>
   </div>
-  
 </div>
+
 @endsection

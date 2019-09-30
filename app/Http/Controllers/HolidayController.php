@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Holiday;
+use Validator;
 
 class HolidayController extends Controller
 {
@@ -13,7 +15,8 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        return view('Admin.Holiday.holiday');
+        $data['holiday'] = Holiday::get();
+        return view('Admin.Holiday.holiday',$data);
     }
 
     /**
@@ -23,7 +26,7 @@ class HolidayController extends Controller
      */
     public function create()
     {
-        return view('Admin.Holiday.add_holiday');
+    
     }
 
     /**
@@ -34,7 +37,22 @@ class HolidayController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // echo $request->date;
+        $holidays = new Holiday;
+        $validation = Validator::make($request->all(),$holidays->validation());
+
+        if($validation->fails())
+        {
+            return back()
+            ->withErrors($validation)
+            ->withInput();
+        }
+        else
+        {
+            $holidays->fill($request->all())->save();
+            return back()
+            ->with('success','Holiday Added Successfully');
+        }
     }
 
     /**
@@ -56,7 +74,8 @@ class HolidayController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['holiday'] = Holiday::find($id);
+        return view('Admin.Holiday.edit_holiday',$data);
     }
 
     /**
@@ -68,7 +87,21 @@ class HolidayController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $holidays = new Holiday;
+        $validation = Validator::make($request->all(),$holidays->validation());
+
+        if($validation->fails())
+        {
+            return back()
+            ->withErrors($validation)
+            ->withInput();
+        }
+        else
+        {
+            $holidays->find($id)->fill($request->all())->save();
+            return back()
+            ->with('success','Holiday Updated Successfully');
+        }
     }
 
     /**

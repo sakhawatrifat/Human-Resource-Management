@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Employee;
+use Validator;
 
 class AttendanceController extends Controller
 {
@@ -23,7 +25,8 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        return view('Admin.Attendance.add_attendance');
+        $data['employee'] = Employee::get();
+        return view('Admin.Attendance.add_attendance',$data);
     }
 
     /**

@@ -18,9 +18,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label class="control-label text-right col-md-3">Name</label>
+                                    <label class="control-label text-right col-md-3">Employee Name</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" required placeholder="" autofocus="" name="name">
+                                        <input type="text" class="form-control" required placeholder="" autofocus="" name="employee_name">
                                     </div>
                                 </div>
                             </div>

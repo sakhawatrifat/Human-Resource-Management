@@ -15,11 +15,11 @@
                     <tr>
                     	<th>SL.NO</th>
                         <th>Employee ID</th>
-                        <th>Image</th>
+                        {{-- <th>Image</th> --}}
                         <th>Name</th>
                         <th>Phone</th>
-                        {{-- <th>Dept. & Desig.</th>
-                        <th>Date Of Joining</th> --}}
+                        <th>Dept. & Desig.</th>
+                        <th>Date Of Joining</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,8 +28,8 @@
                         @foreach($employee as $employee_data)
                     	<td>{{ $i++ }}</td>
                         <td>{{ $employee_data->employee_id }}</td>
-                        {{-- <td><img src="{{asset('image/'. $employee_data->image)}}" onerror="this.src='{{asset('image/blank_image.png')}}'"></td>
-                        <td>{{ $employee_data->name }}</td> --}}
+                        {{-- <td><img src="{{asset('image/'. $employee_data->image)}}" onerror="this.src='{{asset('image/blank_image.png')}}'"></td> --}}
+                        <td>{{ $employee_data->employee_name }}</td>
                         <td>{{ $employee_data->phone }}</td>
                         <td>
                             <p class="font-weight-bold d-inline-flex">Department:</p> {{ $employee_data->department }}
@@ -43,6 +43,5 @@
             </table>
         </div>
     </div>
-    <h2>This is version 2</h2>
 </div>
 @endsection

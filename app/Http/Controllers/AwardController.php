@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Award;
+use App\Employee;
 use Validator;
 
 class AwardController extends Controller
@@ -15,6 +16,7 @@ class AwardController extends Controller
      */
     public function index()
     {
+        $data['employee'] = Employee::get();
         $data['award_data'] = Award::get();
 
         return view('Admin.Award.award',$data);

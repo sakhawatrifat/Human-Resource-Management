@@ -387,9 +387,6 @@
                         </li>
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-email"></i><span class="hide-menu">Holidays</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="{{ route('holiday.create') }}">Add New Holiday</a></li>
-                            </ul>
-                            <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{ route('holiday.index') }}">Monthly Holidays</a></li>
                             </ul>
                         </li>

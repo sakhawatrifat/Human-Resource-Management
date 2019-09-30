@@ -23,3 +23,6 @@ Route::resource('/attendance','AttendanceController');
 Route::resource('/holiday','HolidayController');
 Route::resource('/notice','NoticeController');
 Route::resource('/expense','ExpenseController');
+
+// Ajax
+Route::post('/holiday_data','AjaxController@holiday_list');

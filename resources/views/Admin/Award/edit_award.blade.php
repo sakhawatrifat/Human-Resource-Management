@@ -20,7 +20,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Employee Name</label>
-                                    <input name="employee_name" type="text" id="firstName" class="form-control" placeholder="John doe" value="{{$award->employee_name}}">
+                                    <select class="form-control custom-select" required name="employee_name">
+                                        <option>{{ $award->employee_name }}</option>
+                                        <hr>
+                                        @php $employee = DB::table('employee')->get() @endphp
+                                        @foreach($employee as $employee_data)
+                                        <option>{{ $employee_data->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-12">
