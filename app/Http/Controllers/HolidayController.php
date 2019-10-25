@@ -37,7 +37,6 @@ class HolidayController extends Controller
      */
     public function store(Request $request)
     {
-        // echo $request->date;
         $holidays = new Holiday;
         $validation = Validator::make($request->all(),$holidays->validation());
 
@@ -88,7 +87,10 @@ class HolidayController extends Controller
     public function update(Request $request, $id)
     {
         $holidays = new Holiday;
-        $validation = Validator::make($request->all(),$holidays->validation());
+        $validation = Validator::make($request->all(),[
+            'holiday_name' => 'required',
+            'date' => "date|required|unique:holidays,date,$id"
+        ]);
 
         if($validation->fails())
         {
@@ -99,7 +101,7 @@ class HolidayController extends Controller
         else
         {
             $holidays->find($id)->fill($request->all())->save();
-            return back()
+            return redirect('/holiday')
             ->with('success','Holiday Updated Successfully');
         }
     }
@@ -112,6 +114,8 @@ class HolidayController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Holiday::find($id)->delete();
+        return back()
+        ->with('success','Data Deleted Successfully');
     }
 }

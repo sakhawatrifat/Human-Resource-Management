@@ -17,8 +17,9 @@ class AwardController extends Controller
     public function index()
     {
         $data['employee'] = Employee::get();
-        $data['award_data'] = Award::get();
-
+        $data['award_data'] = Award::join('employee','award.employee_name','=','employee.employee_id')
+        ->select('award.id','employee.employee_name','award.award_name','award.gift_item','award.gift_item','award.cash_price','award.month','award.year')
+        ->get();
         return view('Admin.Award.award',$data);
     }
 
@@ -51,10 +52,21 @@ class AwardController extends Controller
         }
         else
         {
-            $award->fill($request->all())->save();
+            // For Wrong input by Inspect
+            $emp_data = Employee::where('employee_id',$request->employee_name)
+            ->get();
+            if($emp_data->isEmpty())
+            {
+                return back()
+                ->with('error','Wrong Input');
+            }
+            else
+            {
+                $award->fill($request->all())->save();
 
-            return back()
-            ->with('success','Data Inserted successfully');
+                return back()
+                ->with('success','Data Inserted successfully');
+            }
         }
     }
 
@@ -77,7 +89,9 @@ class AwardController extends Controller
      */
     public function edit($id)
     {
-        $data['award'] = Award::find($id);
+        $data['award'] = Award::join('employee','award.employee_name','=','employee.employee_id')
+        ->select('award.id','employee.employee_name as emp_name','employee.employee_id as emp_id','award.award_name','award.gift_item','award.gift_item','award.cash_price','award.month','award.year')
+        ->find($id);
         return view('Admin.Award.edit_award',$data);
     }
 
@@ -101,10 +115,19 @@ class AwardController extends Controller
         }
         else
         {
-            $award->find($id)->fill($request->all())->save();
-
-            return redirect('/award')
-            ->with('success','Data Updated Successfully');
+            // For Wrong input by Inspect
+            $award_data = Award::where('employee_name',$request->employee_name)->get();
+            if($award_data->isEmpty())
+            {
+                return back()
+                ->with('error','Wrong Input');
+            }
+            else
+            {
+                $award->find($id)->fill($request->all())->save();
+                return redirect('/award')
+                ->with('success','Data Updated Successfully');
+            }
         }
     }
 

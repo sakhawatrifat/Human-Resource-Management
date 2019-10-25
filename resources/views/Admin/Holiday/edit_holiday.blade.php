@@ -1,10 +1,10 @@
 @extends('home')
 
 @section('content')
+@include('_partial.message')
 
 <div class="row">
     <div class="col-lg-12">
-    	@include('_partial.message')
         <div class="card card-outline-info">
             <div class="card-header">
                 <h4 class="m-b-0 text-white">Employee Information Form</h4>

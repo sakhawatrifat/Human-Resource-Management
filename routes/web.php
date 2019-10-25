@@ -24,5 +24,11 @@ Route::resource('/holiday','HolidayController');
 Route::resource('/notice','NoticeController');
 Route::resource('/expense','ExpenseController');
 
-// Ajax
+// Ajax \\
+// Designation for Add Employee
+Route::post('/designation_data','AjaxController@designation_list');
+// Monthly Holiday Data
 Route::post('/holiday_data','AjaxController@holiday_list');
+//Employee For Attendance Data
+Route::post('/employee_ajax_data','AjaxController@employee_ajax');
+

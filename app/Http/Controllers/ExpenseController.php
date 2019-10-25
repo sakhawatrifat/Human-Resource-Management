@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use App\Expense;
+use App\Employee;
+use Validator;
 
 class ExpenseController extends Controller
 {
@@ -13,7 +17,11 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        return view('Admin.Expense.expense');
+        $data['employee'] = Employee::get();
+        $data['expense'] = Expense::join('employee','expense.purchase_from','=','employee.employee_id')
+        //->select('employee.employee_name','expense.id as expense_id','expense.item_name','expense.purchase_date','expense.ammount_price','expense.attach_bill')
+        ->get();
+        return view('Admin.Expense.expense',$data);
     }
 
     /**
@@ -34,7 +42,40 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $expense = new Expense;
+        $validator = Validator::make($request->all(),$expense->validation());
+        if($validator->fails())
+        {
+            return back()
+            ->withErrors($validator)
+            ->withinput();
+        }
+        else
+        {
+            $data = Employee::where('employee_id',$request->purchase_from)
+            ->get();
+            if($data->isEmpty())
+            {
+                return back()
+                ->with('error','Wrong Input');
+            }
+            else
+            {
+                // Image Upload
+                $file = $request->file('attach_bill');
+                $destinationPath = 'file/';
+                $originalFile = time(). '.' .$file->getClientOriginalExtension();
+                $file->move($destinationPath, $originalFile);
+
+                // Array set new Data
+                $data = $request->all();
+                $new_data = Arr::set($data,'attach_bill',$originalFile);
+                $expense->fill($new_data)->save();
+
+                return back()
+                ->with('success','Data Inserted Successfully');
+            }
+        }
     }
 
     /**
@@ -79,6 +120,8 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Expense::find($id)->delete();
+        return back()
+        ->with('success','Data Deleted Successfully');
     }
 }

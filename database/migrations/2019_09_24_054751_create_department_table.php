@@ -17,7 +17,6 @@ class CreateDepartmentTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('department_name');
-            $table->string('designation');
         });
     }
 

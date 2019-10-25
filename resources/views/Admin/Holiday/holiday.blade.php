@@ -8,8 +8,8 @@
         {{-- Left Content --}}
         <div class="col-xlg-2 col-lg-4 col-md-12">
             <div class="card-body inbox-panel text-white text-center"><a class="btn btn-info m-b-20 p-10 btn-block waves-effect waves-light">Select Month</a>
-                <ul class="list-group list-group-full">
-                    <li class="list-group-item"> 
+                <ul class="list-group list-group-full nav">
+                    <li class="list-group-item active"> 
                         <a href="1" class="month">January </a>
                     </li>
                     <li class="list-group-item">
@@ -63,21 +63,8 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        @php $i=1 @endphp
-                        @foreach($holiday as $holidays)
-                    	<td>{{ $i++ }}</td>
-                        <td>{{ $holidays->holiday_name }}</td>
-                        <td>{{ $holidays->date }}</td>
-                        <td>
-                            <a href="{{ route('holiday.edit',$holidays->id) }}">
-                                <button class="btn btn-info">Edit</button>
-                            </a>
-                            <button class="btn btn-danger" onclick="return confirm('Are You Sure?')">Delete</button>
-                        </td>
-                    </tr>
-                    @endforeach
+                <tbody id="holiday_table">
+                        
                 </tbody>
             </table>
         </div>
@@ -112,7 +99,7 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Date</label>
                                     <div class="col-md-9">
-                                        <input type="date" name="date" class="form-control" placeholder="mm/dd/YYYY">
+                                        <input type="date" name="date" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -144,20 +131,31 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+        $( '.nav li' ).removeClass( 'active' );
+        
+        $(function() {
+            $( '.nav li' ).on( 'click', function() {
+                $( this ).parent().find( 'li.active' ).removeClass( 'active' );
+                $( this ).addClass( 'active' );
+            });
+        });
+    });
+
+    $(document).ready(function(){
         $('.list-group-item').on("click",".month",function(event){
            event.preventDefault();
             var allmonth = $(this).attr('href');
         
-        $.ajax({
-            url:'/holiday_data',
-            type:'post',
-            data:{
-                "_token": "{{ csrf_token() }}",
-                "allmonth":allmonth
-            },
-            success:function(data){
-                console.log(data);
-            }
+            $.ajax({
+                url:'/holiday_data',
+                type:'post',
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    "allmonth":allmonth
+                },
+                success:function(data){
+                    $("#holiday_table").html(data);
+                }
             });
         });
     });

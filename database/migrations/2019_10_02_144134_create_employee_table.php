@@ -13,7 +13,7 @@ class CreateEmployeeTable extends Migration
      */
     public function up()
     {
-        Schema::create('employee', function (Blueprint $table) {
+            Schema::create('employee', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('employee_name');
@@ -25,10 +25,10 @@ class CreateEmployeeTable extends Migration
             $table->string('premanent_address');
             $table->string('email');
             $table->string('password');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('employee_id');
-            $table->string('department');
-            $table->string('designation');
+            $table->ineger('department_name');
+            $table->ineger('designation_name');
             $table->date('date_of_joining');
             $table->integer('joining_salary');
             $table->string('resume');

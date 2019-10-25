@@ -8032,3 +8032,10 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
     background-color: rgba(255, 255, 255, 0.5); }
     .switch label input[type=checkbox]:checked + .lever.switch-col-white:after {
       background-color: #ffffff; }
+.checkboxInput[type="checkbox"]:not(:checked), .checkboxInput[type="checkbox"]:checked{
+  position: relative;
+  opacity: 1;
+  left: unset;
+  width: 20px;
+  height: 20px;
+}

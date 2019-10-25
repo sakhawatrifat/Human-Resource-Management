@@ -1,6 +1,7 @@
 @extends('home')
 
 @section('content')
+@include('_partial.message')
 
 <div class="card">
     <div class="card-body">
@@ -15,14 +16,36 @@
                         <th>Name</th>
                         <th>Department</th>
                         <th>Designation</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
+                        @php $i=1 @endphp
+                        @foreach($department as $dept_data)
+                        @php  @endphp
+                        <td>{{ $i++ }}</td>
+                        <td>{{ $dept_data->department_name }}</td>
+                        <td>
+                            @php $desig_data = App\Designation::where('department_id',$dept_data->id)->get();
+                            @endphp
+                            @foreach($desig_data as $designation)
+                            <li>{{ $designation->designation_name }}</li>
+                            @endforeach
+                        </td>
+                        
+                        <td class="d-inline-flex"> 
+                            <a href="{{ route('department.edit',$dept_data->id) }}">
+                                <button class="btn btn-info">Edit</button>
+                            </a>
+                            <form method="post" action="{{ route('department.destroy',$dept_data->id) }}">
+                                @method('delete')
+                                @csrf
+                                <button class="btn btn-danger" onclick="return confirm('Are You Sure?')">Delete</button>
+                            </form>
+                        </td>
                     </tr>
+                        @endforeach
                 </tbody>
             </table>
         </div>
@@ -56,13 +79,12 @@
 								<hr>
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Designation</label>
-                                    <div class="col-md-9">
-                                    	<input type="text" name="designation_name[]" class="form-control designation_name" placeholder="">
-                                    	 
-                                        <a href="#" class="btn btn-danger remove"><i class="fas fa-times"></i></a>
-                                         
+                                    <div class="col-md-9 body p-0">
+                                        <div class="d-inline-flex col-md-12">
+                                            <input type="text" name="designation_name[]" class="form-control col-md-11">
+                                            <a href="#" class="btn btn-dark addRaw"><i class="fas fa-plus"></i></a>
+                                        </div>
                                     </div>
-                                    <button type="button" class="btn btn-dark btn-sm btn float-right addRaw">+ Add Designation</button>
                                 </div>
                             </div>
                         </div>
@@ -92,14 +114,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('.addRaw').on(click,funtion(){
-			.addRaw();
+		$('.addRaw').on('click',function(){
+            event.preventDefault();
+                 $field = '<div class="d-inline-flex col-md-12 m-t-5 removeDesignation"><input type="text" name="designation_name[]" class="form-control col-md-11 designation_name">\
+                <a href="#" class="btn btn-danger remove"><i class="fas fa-times"></i></a></div>';
+            $('div .body').append($field);
 		});
-		function addRaw()
-		{
-			let $field = '<input type="text" name="designation_name[]" class="form-control designation_name" placeholder="Type Here">';
-			$('tbody').append($field);
-		};
-	})
+        $('.body').on('click','.remove',function(){
+            event.preventDefault();
+            $(this).closest('div').remove();
+        });
+	});
 </script>
 @endsection

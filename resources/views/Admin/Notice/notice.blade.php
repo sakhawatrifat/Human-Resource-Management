@@ -1,6 +1,7 @@
 @extends('home')
 
 @section('content')
+@include('_partial.message')
 
 <div class="card">
     <div class="card-body">
@@ -9,7 +10,7 @@
 
         <h4 class="card-title">Notice List</h4>
         <div class="table-responsive m-t-40">
-            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="example23" class="display nowrap table table-hover table-striped table-bordered text-center" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                     	<th>SL.NO</th>
@@ -18,17 +19,50 @@
                         <th>Notice Date</th>
                         <th>Attachment</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Tiger Nixon</td>
-                        <td>Tiger Nixon</td>
-                        <td>Tiger Nixon</td>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
+                        @php $i=1 @endphp
+                        @foreach($notice as $notices)
+                        <td>{{ $i++ }}</td>
+                        <td>{{ $notices->title }}</td>
+                        <td>{{ $notices->description }}</td>
+                        <td>{{ $notices->notice_date }}</td>
+                        <td>
+                            @if(!$notices->attachment)
+                            <span class="text-danger">No File</span>
+                            @else
+                            <a class="btn btn-success" href="{{ asset('file/'.$notices->attachment) }}" download>Download</a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($notices->status=='1')
+                            <span class="text-success">Active</span>
+                            @else
+                            <span class="text-warning">Inactive</span>
+                            @endif
+                        </td>
+                        <td class="d-flex justify-content-center">
+                            <a href="{{ route('notice.edit',$notices->id) }}">
+                                <button class="btn btn-info">Edit</button>
+                            </a>
+                            <a href="{{ route('notice.show',$notices->id) }}">
+                                @if($notices->status=='1')
+                                <button class="btn btn-warning">Inactive</button>
+                                @else
+                                <button class="btn btn-success">Active</button>
+                                @endif
+                            </a>
+                            <form method="post" action="{{ route('notice.destroy',$notices->id) }}">
+                                @method('delete')
+                                @csrf
+                                <button class="btn btn-danger" onclick="return confirm('Are You Sure?')">Delete</button>
+                                </form>
+                        </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -48,7 +82,7 @@
         </div>
         <div class="modal-body">
           <div class="card-body">
-                <form method="post" action="" class="form-horizontal">
+                <form method="post" action="{{ route('notice.store') }}" class="form-horizontal" enctype="multipart/form-data">
                 	@csrf
                     <div class="form-body">
                         <div class="row">
@@ -56,34 +90,34 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Title</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="" class="form-control" placeholder="">
+                                        <input type="text" name="title" class="form-control" placeholder="" value="{{ old('title') }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Description</label>
                                     <div class="col-md-9">
-                                    	<textarea rows="3" name="" class="form-control" placeholder=""></textarea>
+                                    	<textarea rows="3" name="description" class="form-control" placeholder="">{{ old('description') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Notice Date</label>
                                     <div class="col-md-9">
-                                    	<input type="text" name="" class="form-control" placeholder="">
+                                    	<input type="date" name="notice_date" class="form-control" placeholder="" value="{{ old('notice_date') }}"> 
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Attachment</label>
                                     <div class="col-md-9">
-                                    	<input type="text" name="" class="form-control" placeholder="">
+                                    	<input type="file" name="attachment" class="form-control" placeholder="" value="{{ old('attachment') }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Status</label>
                                     <div class="col-md-9">
-                                        <select class="form-control custom-select">
+                                        <select class="form-control custom-select" name="status">
                                         	<option value="">--Select--</option>
-                                            <option value="">Active</option>
-                                            <option value="">Inactive</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
                                         </select>
                                     </div>
                                 </div>

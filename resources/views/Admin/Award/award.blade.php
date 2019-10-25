@@ -3,7 +3,7 @@
 @section('content')
 @include('_partial.message')
     <div class="card">
-    <div class="card-body">
+        <div class="card-body">
     	<!-- Trigger the modal with a button -->
   		<button type="button" class="btn btn-info btn-sm float-right" data-toggle="modal" data-target="#myModal">+ Add Award</button>
         <h4 class="card-title">Award Table</h4>
@@ -42,8 +42,8 @@
                             <button class="btn btn-danger">Delete</button>
                             </form>
                         </td>
-                        @endforeach
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -74,7 +74,7 @@
                                         <select class="form-control custom-select" required name="employee_name">
                                             <option value="">--Select--</option>
                                             @foreach($employee as $employee_data)
-                                            <option>{{ $employee_data->name }}</option>
+                                            <option value="{{ $employee_data->employee_id }}">{{ $employee_data->employee_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -84,7 +84,7 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Award Name</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="award_name" class="form-control" placeholder="">
+                                        <input type="text" name="award_name" class="form-control" value="{{ old('award_name') }}">
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Gift Item</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="gift_item" class="form-control" placeholder="">
+                                        <input type="text" name="gift_item" class="form-control" value="{{ old('gift_item') }}">
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Cash Price</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="cash_price" class="form-control" placeholder="">
+                                        <input type="text" name="cash_price" class="form-control" value="{{ old('cash_price') }}">
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Month</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="month" class="form-control" placeholder="">
+                                        <input type="text" name="month" class="form-control" value="{{ old('month') }}">
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Year</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="year" class="form-control" placeholder="">
+                                        <input type="text" name="year" class="form-control" value="{{ old('year') }}">
                                     </div>
                                 </div>
                             </div>

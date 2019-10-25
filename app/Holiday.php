@@ -13,7 +13,14 @@ class Holiday extends Model
     {
     	return[
     		'holiday_name' => 'required',
-    		'date' => 'required|unique:holidays'
+    		'date' => 'date|required|unique:holidays'
     	];
+    }
+    // public function update_validation()
+    // {
+    // 	return[
+    // 		'holiday_name' => 'required',
+    // 		'date' => "date|required|unique:holidays,date,$id"
+    // 	];
     }
 }
